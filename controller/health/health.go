@@ -29,14 +29,19 @@ func (c *healthContoller) GetHealth(ctx *gin.Context) {
 		ctx.AbortWithStatus(http.StatusBadRequest)
 		return
 	}
+	// Request query params validation
+	if len(ctx.Request.URL.RawQuery) > 0 {
+		ctx.AbortWithStatus(http.StatusBadRequest)
+		return
+	}
 
 	err := c.healthService.Ping(ctx)
 	if err != nil {
 		log.Println("Unable to Ping to DB err : %v", err)
-		ctx.JSON(http.StatusServiceUnavailable, nil)
+		ctx.Status(http.StatusServiceUnavailable)
 		return
 	}
 	log.Println("Database Successfully pinged")
-	ctx.JSON(http.StatusOK, nil)
+	ctx.Status(http.StatusOK)
 	return
 }
