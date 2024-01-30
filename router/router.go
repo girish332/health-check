@@ -33,5 +33,10 @@ func InitializeRouter() *gin.Engine {
 		}
 	})
 
+	router.NoRoute(func(context *gin.Context) {
+		context.Data(http.StatusNotFound, "text/plain", []byte{})
+		context.Abort()
+	})
+
 	return router
 }
