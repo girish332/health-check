@@ -5,6 +5,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+type Service interface {
+	Ping(ctx *gin.Context) error
+}
+
 type HealthService struct {
 	repo repository.UserRepo
 }
